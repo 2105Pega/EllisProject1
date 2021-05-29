@@ -8,7 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 public class SessionManager {
 	private static SessionFactory sessionFactory = null;
 
-	public SessionFactory getSessionFactory() {
+	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
 			try {
