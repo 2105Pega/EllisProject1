@@ -24,10 +24,10 @@ public class Account {
     }
     
     @Column(name = "account_status")
-    private Status status;
+    private String status;
 	
 	@ManyToMany(mappedBy = "accounts")
-	Set<Client> accountHolders;
+	transient Set<Client> accountHolders;
 	
 	public int getId() {
 		return id;
@@ -53,11 +53,11 @@ public class Account {
 		this.name = name;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

@@ -6,33 +6,34 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "clients")
+@org.hibernate.annotations.NamedQuery(name = "Client_findByUsername", query = "from Client where username = :name")
+
 public class Client {
 	@Id
-	@GeneratedValue(generator="increment")
+	@GeneratedValue(generator = "increment")
 	@Column(name = "client_id")
-	private int id;
-	
+	private Integer id;
+
 	private String username;
-	
+
 	private String passwordHash;
-	
+
 	@ManyToMany
-	@JoinTable(
-			name="clients_accounts",
-			joinColumns = @JoinColumn(name = "client_id"),
-			inverseJoinColumns = @JoinColumn(name = "account_id"))
+	@JoinTable(name = "clients_accounts", joinColumns = { @JoinColumn(name = "client_id") }, inverseJoinColumns = { @JoinColumn(name = "account_id") } )
 	Set<Account> accounts;
+
+	public Client() {}
 	
 	public Client(String username, String passwordHash) {
 		this.username = username;
 		this.passwordHash = passwordHash;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -50,5 +51,13 @@ public class Client {
 
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
+	}
+	
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
 }
