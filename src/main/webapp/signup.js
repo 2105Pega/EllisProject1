@@ -26,32 +26,4 @@ document.body.onload = function () {
             passwordConfirm.setCustomValidity("passwords do not match");
         }
     });
-
-    const submitButton = document.getElementById("submit");
-
-    submitButton.addEventListener("onclick", function (event) {
-        //let request = new XMLHttpRequest();
-        //request.onreadystatechange = function () {
-        //    if (this.readyState == 4) {
-        //        //do stuff
-        //    }
-        //};
-
-        let username = document.getElementById("username-input").value
-        const data = {
-            username: document.getElementById("username-input").value,
-            password: document.getElementById("password-input").value
-        };
-
-        fetch('/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => {
-                console.error(error);
-            })
-    });
 }
