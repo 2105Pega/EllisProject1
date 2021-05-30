@@ -1,7 +1,7 @@
-document.body.onload = function () {
+function navbar() {
     var cookies = document.cookie.split('; ');
     var cookie;
-    for(var i=0; i<cookies.length; i++) {
+    for (var i = 0; i < cookies.length; i++) {
         cookie = cookies[i];
         let [name, value] = cookie.split('=');
         if (name === 'username') {
@@ -11,7 +11,7 @@ document.body.onload = function () {
         }
     }
 
-    document.getElementById('logout').onclick = function() {
+    document.getElementById('logout').onclick = function () {
         document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/JDBCBank;";
         document.cookie = "jws=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/JDBCBank;";
         location.reload();
