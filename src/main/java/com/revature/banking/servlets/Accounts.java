@@ -21,29 +21,32 @@ public class Accounts extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Cookie [] cookies = request.getCookies();
+			Cookie[] cookies = request.getCookies();
 			for (Cookie cookie : cookies) {
-			     if ("id".equals(cookie.getName())) {
-			          Session session = SessionManager.getSession();
-			          Integer id = Integer.valueOf(cookie.getValue());
-			          Client client = session.get(Client.class, id);
-			          PrintWriter writer = response.getWriter();
-			          StringBuilder json = new StringBuilder("{");
-			          Gson gson = new Gson();
-			          for (Account account : client.getAccounts()) {
-			        	  json.append("\"" + account.getName() + "\": ");
-			        	  json.append(gson.toJson(account));
-			        	  json.append(", ");
-			          }
-			          json.setLength(json.length() - 2);
-			          json.append("}");
-			          System.out.println(json.toString());
-			          writer.write(json.toString());
-			     }
+				if ("id".equals(cookie.getName())) {
+					Session session = SessionManager.getSession();
+					Integer id = Integer.valueOf(cookie.getValue());
+					Client client = session.get(Client.class, id);
+					PrintWriter writer = response.getWriter();
+					writer.write(accountJson(client));
+				}
 			}
 		} catch (Exception e) {
-			//TODO
+			e.printStackTrace();
 		}
 
+	}
+
+	public String accountJson(Client client) {
+		StringBuilder json = new StringBuilder("{");
+		Gson gson = new Gson();
+		for (Account account : client.getAccounts()) {
+			json.append("\"" + account.getName() + "\": ");
+			json.append(gson.toJson(account));
+			json.append(", ");
+		}
+		json.setLength(json.length() - 2);
+		json.append("}");
+		return json.toString();
 	}
 }
