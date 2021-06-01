@@ -14,8 +14,9 @@ function processAccounts(accounts) {
     let tabledata = "";
     for (const value in accounts) {
         var account = accounts[value];
-        tabledata = tabledata + "<tr><td>" +
-            account.name + "</td><td>$" +
+        tabledata = tabledata + "<tr><td><a href=\"account.html?id=" +
+            account.id + "\">" +
+            account.name + "</a></td><td>$" +
             account.balance + "</td><td>" +
             account.status + "</td></tr>";
     }
