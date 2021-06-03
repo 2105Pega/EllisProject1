@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 public class Client {
 	@Id
-	@GeneratedValue(generator = "increment")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "client_id")
 	private Integer id;
 
@@ -19,11 +19,12 @@ public class Client {
 	private String passwordHash;
 
 	@ManyToMany
-	@JoinTable(name = "clients_accounts", joinColumns = { @JoinColumn(name = "client_id") }, inverseJoinColumns = { @JoinColumn(name = "account_id") } )
+	@JoinTable(name = "clients_accounts", joinColumns = { @JoinColumn(name = "client_id") }, inverseJoinColumns = { @JoinColumn(name = "account_id") })
 	Set<Account> accounts;
 
-	public Client() {}
-	
+	public Client() {
+	}
+
 	public Client(String username, String passwordHash) {
 		this.username = username;
 		this.passwordHash = passwordHash;
@@ -52,7 +53,7 @@ public class Client {
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
-	
+
 	public Set<Account> getAccounts() {
 		return accounts;
 	}
