@@ -10,7 +10,6 @@ document.body.onload = function () {
 }
 
 function processAccounts(accounts) {
-    console.log(accounts);
     let tabledata = "";
     for (const value in accounts) {
         var account = accounts[value];
