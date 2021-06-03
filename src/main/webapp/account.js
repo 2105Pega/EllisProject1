@@ -16,7 +16,10 @@ document.body.onload = function () {
 async function processData(jsonObject) {
     let accountHolders = jsonObject.accountHolders;
     let accountName = await getAccountName(getCookieValue("accountid"));
+    let accountBalance = await getAccountBalance(getCookieValue("accountid"));
     document.getElementById("account-name").innerHTML = accountName;
+    document.getElementById("account-balance").innerHTML = "Balance $" + accountBalance;
+    document.getElementById("account-holders").innerHTML = "Account Holders: " + accountHolders.join(" ")
     let transactions = jsonObject.transactions;
     let tabledata = "";
     for (let i = 0; i < transactions.length; i++) {
@@ -31,22 +34,14 @@ async function processData(jsonObject) {
 
 }
 
-function transaction(event) {
+async function transaction(event) {
     let type = document.getElementById("transaction-selector").value;
-    /*
-    switch (type) {
-        case "WITHDRAW":
-            type = 0;
-            break;
-        case "DEPOSIT":
-            type = 1;
-            break;
-        case "TRANSFER":
-            type = 2;
-    };*/
     let amount = parseFloat(document.getElementById("amount").value);
     let id = getCookieValue('accountid');
-    let destinationId = document.getElementById('destination').value;
+    let destinationId = null;
+    if (type == "TRANSFER") {
+        destinationId = await getAccountId(document.getElementById('destination').value);
+    }
     destinationId = parseInt(destinationId) || 0;
     let data = { amount: amount, transactionType: type, accountId: id, destinationId: destinationId };
 
@@ -57,7 +52,8 @@ function transaction(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        });
+        }).then(response => location.reload())
+        .then(data => location.reload());
 }
 
 function select() {
@@ -88,6 +84,40 @@ async function getAccountName(id) {
         }
     }
     return "N/A";
+}
+
+async function getAccountBalance(id) {
+    if (!accountData) {
+        accountData = await fetch('accounts', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    for (const name in accountData) {
+        account = accountData[name];
+        if (account.id == id) {
+            return account.balance;
+        }
+    }
+    return "N/A";
+}
+
+async function getAccountId(name) {
+    if (!accountData) {
+        accountData = await fetch('accounts', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    return accountData[name].id;
 }
 
 const getCookieValue = (name) => (
