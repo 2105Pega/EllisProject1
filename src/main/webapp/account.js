@@ -2,6 +2,7 @@ var accountData = null;
 
 document.body.onload = function () {
     navbar();
+    document.getElementById("submit-button").innerHTML = document.getElementById("transaction-selector").value;
     var urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
     document.cookie = "accountid=" + id;
@@ -57,6 +58,7 @@ async function transaction(event) {
 }
 
 function select() {
+    document.getElementById("submit-button").innerHTML = document.getElementById("transaction-selector").value;
     if (document.getElementById("transaction-selector").value == "TRANSFER") {
         document.getElementById('destination').style.display = 'inline';
         document.getElementById('destination-label').style.display = 'inline';
