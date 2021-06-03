@@ -29,6 +29,7 @@ public class Accounts extends HttpServlet {
 					Client client = session.get(Client.class, id);
 					PrintWriter writer = response.getWriter();
 					writer.write(accountJson(client));
+					session.close();
 				}
 			}
 		} catch (Exception e) {
