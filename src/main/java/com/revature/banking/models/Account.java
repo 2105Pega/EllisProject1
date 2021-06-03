@@ -6,11 +6,17 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "accounts")
+@org.hibernate.annotations.NamedNativeQuery(name = "Client_getAccountHolders",
+query = "select * from clients c " +
+ "inner join clients_accounts ca on " +
+ "ca.client_id = c.client_id " + 
+ "where ca.account_id = :id", resultClass = Client.class)
+
 public class Account {
 	@Id
-	@GeneratedValue(generator="increment")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "account_id")
-	private int id;
+	private Integer id;
 	
 	private double balance;
 	
