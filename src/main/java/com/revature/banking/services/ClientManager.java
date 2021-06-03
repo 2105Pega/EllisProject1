@@ -14,9 +14,13 @@ public class ClientManager {
 				Client.class);
 		query.setParameter("name", username);
 		try {
-			return query.getSingleResult();
+			Client returnValue = query.getSingleResult();
+			session.close();
+			return returnValue;
 		} catch (NoResultException e) {
+			session.close();
 			return null;
 		}
+
 	}
 }
